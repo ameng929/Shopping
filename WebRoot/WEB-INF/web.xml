@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	 <servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <servlet-class>zx.upload.FileUploadServlet</servlet-class>
+
+    <init-param>
+     <param-name>savePath</param-name>
+     <param-value>D:\CODE\Shopping\WebRoot\upload</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <url-pattern>/servlet/fileServlet</url-pattern>
+  </servlet-mapping>
+
+
+
+<servlet>
+		<description>count the sales</description>
+		<display-name>SalesCountSatistics</display-name>
+		<servlet-name>SalesCountServlet</servlet-name>
+		<servlet-class>com.zx.shopping.stat.SalesCountServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>Context Parameter Test</description>
+		<display-name>Context Parameter Test</display-name>
+		<servlet-name>TestContextParamServlet</servlet-name>
+		<servlet-class>TestContextParamServlet</servlet-class>
+	</servlet>
+
+	
+  
+	<servlet-mapping>
+		<servlet-name>SalesCountServlet</servlet-name>
+		<url-pattern>/servlet/SalesCountServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TestContextParamServlet</servlet-name>
+		<url-pattern>/servlet/TestContextParamServlet</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>a</param-name>
+		<param-value>b</param-value>
+	</context-param>
+
+
+
+<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>com.zx.shopping.util.filter.AuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>IPFilter</filter-name>
+		<filter-class>com.zx.shopping.util.filter.IPFilter</filter-class>
+		<init-param>
+			<param-name>IPBlackList</param-name>
+			<param-value>192.168.0.16,192.168.0.165</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>IPFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>com.zx.shopping.util.listener.LoggedUserCounter</listener-class>
+	</listener>
+	<welcome-file-list>
+		<welcome-file>Index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<!--定义核心Filter FilterDispatcher -->
+	<filter>
+		<!-- 定义核心Filter的名称 -->
+		<filter-name>struts2</filter-name>
+		<!--定义核心Filter的实现类 -->
+		<filter-class>
+			org.apache.struts2.dispatcher.FilterDispatcher
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<!--核心Filter的名称 -->
+		<filter-name>struts2</filter-name>
+		<!--使用该核心Filter来接受所有的Web请求 -->
+		
+		<url-pattern>*.action</url-pattern>
+		<url-pattern>/AdminLogin1.jsp</url-pattern>
+		<url-pattern>/Loginin.jsp</url-pattern>
+	
+		
+	</filter-mapping>
+	
+
+    <listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+</web-app>
+  
+

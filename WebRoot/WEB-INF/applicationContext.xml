@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- 定义一个数据源 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost/shopping</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>mysqladmin</value>
+		</property>
+	</bean>
+	
+	<!-- 定义SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/zx/kuangjia/po/Comment.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Collect.hbm.xml</value>
+				<value>com/zx/kuangjia/po/User.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Salesorder.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Salesitem.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Category.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Product.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Sjzdfl.hbm.xml</value>
+				<value>com/zx/kuangjia/po/Sjzdxx.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 定义hibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
+	<!-- 声明一个 Hibernate 3 的事务管理器供代理类自动管理事务用 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<!-- ******************************************Comment********************************************** -->
+	<!-- 定义commentDAO -->
+	<bean id="commentDAO" class="com.zx.kuangjia.dao.CommentDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate"/>
+		</property>
+	</bean>
+	
+
+	
+	<!-- 定义commentDAO代理对象 -->
+	<bean id="commentDAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="commentDAO" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<!-- 这里的方法签名可以精确到方法全配置上 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义CommentService -->
+	<bean id="commentServiceDAO" class="com.zx.kuangjia.service.CommentServiceDAOImpl">
+		<property name="commentDAO">
+			<ref bean="commentDAOProxy"/>
+		</property>
+	</bean>
+	
+	<bean id="commentAction" class="com.zx.kuangjia.action.CommentAction">
+		<property name="commentServiceDAO">
+			<ref bean="commentServiceDAO"/>
+		</property>
+	</bean>
+	
+	<!-- *****************************************User********************************************** -->
+	<!-- 定义userDAO -->
+	<bean id="userDAO" class="com.zx.kuangjia.dao.UserDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate"/>
+		</property>
+	</bean>
+	
+
+	
+	<!-- 定义userDAO代理对象 -->
+	<bean id="userDAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="userDAO" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<!-- 这里的方法签名可以精确到方法全配置上 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义userService -->
+	<bean id="userService" class="com.zx.kuangjia.service.UserServiceImpl">
+		<property name="userDAO">
+			<ref bean="userDAOProxy"/>
+		</property>
+	</bean>
+	
+	<bean id="adminLoginAction" class="com.zx.kuangjia.admin.action.AdminLoginAction">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	
+	<bean id="registerAction" class="com.zx.kuangjia.action.RegisterAction">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	
+	
+	<!-- *****************************************sjfl********************************************** -->
+	<!-- 定义sjzdflDAO -->
+	<bean id="sjzdflDAO" class="com.zx.kuangjia.dao.SjzdflDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate"/>
+		</property>
+	</bean>
+	<!-- 定义sjzdflDAO代理对象 -->
+	<bean id="sjzdflDAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="sjzdflDAO" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<!-- 这里的方法签名可以精确到方法全配置上 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义sjzdflService -->
+	<bean id="sjzdflService" class="com.zx.kuangjia.service.SjzdflServiceImpl">
+		<property name="sjzdflDAO">
+			<ref bean="sjzdflDAOProxy"/>
+		</property>
+	</bean>
+	
+	<!-- 定义getSjzdflAction -->
+	<bean id="getSjzdflAction" class="com.zx.kuangjia.action.GetSjzdflAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+	</bean>
+	
+	<!-- 定义getSjzdflAction -->
+	<bean id="updateSjzdflAction" class="com.zx.kuangjia.action.UpdateSjzdflAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+		<property name="sjzdxxService">
+			<ref bean="sjzdxxService"/>
+		</property>
+	</bean>
+	
+	<!-- 定义sjzdxxDAO -->
+	<bean id="sjzdxxDAO" class="com.zx.kuangjia.dao.SjzdxxDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate"/>
+		</property>
+	</bean>
+	
+	
+	<!-- 定义sjzdxxDAO代理对象 -->
+	<bean id="sjzdxxDAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="sjzdxxDAO" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<!-- 这里的方法签名可以精确到方法全配置上 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义sjzdxxService -->
+	<bean id="sjzdxxService" class="com.zx.kuangjia.service.SjzdxxServiceImpl">
+		<property name="sjzdxxDAO">
+			<ref bean="sjzdxxDAOProxy"/>
+		</property>
+	</bean>
+	
+	<bean id="getSjzdxxAction" class="com.zx.kuangjia.action.GetSjzdxxAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+		<property name="sjzdxxService">
+			<ref bean="sjzdxxService"/>
+		</property>
+	</bean>
+	
+	<bean id="updateSjzdxxAction" class="com.zx.kuangjia.action.UpdateSjzdxxAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+		<property name="sjzdxxService">
+			<ref bean="sjzdxxService"/>
+		</property>
+	</bean>
+	
+	<bean id="sjzdflxxAction" class="com.zx.kuangjia.action.GetSjzdflxxAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+		<property name="sjzdxxService">
+			<ref bean="sjzdxxService"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="setMealOrderAction" class="com.zx.kuangjia.action.GetSetMealAction">
+		<property name="sjzdflService">
+			<ref bean="sjzdflService"/>
+		</property>
+		<property name="sjzdxxService">
+			<ref bean="sjzdxxService"/>
+		</property>
+	</bean>
+	
+	
+	
+	
+	<!-- *****************************************PRODUCT********************************************** -->
+	<!-- 定义productDAO -->
+	<bean id="productDAO" class="com.zx.kuangjia.dao.ProductDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate"/>
+		</property>
+	</bean>
+	<!-- 定义productDAO代理对象 -->
+	<bean id="productDAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="productDAO" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<!-- 这里的方法签名可以精确到方法全配置上 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义productService -->
+	<bean id="productService" class="com.zx.kuangjia.service.ProductServiceImpl">
+		<property name="productDAO">
+			<ref bean="productDAOProxy"/>
+		</property>
+	</bean>
+	
+	
+</beans>

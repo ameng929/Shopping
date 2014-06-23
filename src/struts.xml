@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="gb2312"></constant>
+	<package name="struts2" extends="struts-default">
+		<action name="comment" class="commentAction">
+			<result name="success">Index.jsp</result>
+		</action>
+		
+		<action name="image" class="com.zx.kuangjia.image.ImageAction">
+			<result name="success">/Loginin.jsp</result>
+		</action>
+		
+		<action name="adminLogin" class="adminLoginAction">
+			<result name="success">admin/Adminindex1.jsp</result>
+		</action>
+		
+		<action name="register" class="com.zx.kuangjia.action.RegisterAction">
+			<result name="success">/Loginin.jsp</result>
+		</action>
+		
+		
+		<action name="getSjzdfl" class="getSjzdflAction">
+			<result name="success">/form/ShowSjzdfl.jsp</result>
+		</action>
+		
+		<action name="updateSjzdfl" class="updateSjzdflAction">
+			<result name="success" type="chain">getSjzdfl</result>
+		</action>
+		
+		<action name="getSjzdxx" class="getSjzdxxAction">
+			<result name="success">/form/ShowSjzdxx.jsp</result>
+		</action>
+		
+		<action name="updateSjzdxx" class="updateSjzdxxAction">
+			<result name="success" type="chain">getSjzdxx</result>
+		</action>
+		<action name="getSjzdflxx" class="sjzdflxxAction">
+			<result name="success"> SetMeal.jsp</result>
+		</action>
+		
+		<action name="setMealOrder" class="setMealOrderAction">
+			<result name="success">SetMealOrder.jsp</result>
+		</action>
+		
+		
+	</package>
+</struts>

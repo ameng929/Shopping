@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="profiler.settings.instrument.empty.methods">true</entry>
+<entry key="ProfilerCPUSettings_profile_runnables">true</entry>
+<entry key="ProfilerCPUSettings_filter_type">2</entry>
+<entry key="ProfilerMemorySettings_track_every">10</entry>
+<entry key="ProfilerMemorySettings_mode">4</entry>
+<entry key="ProfilerCPUSettings_root_classes">QQ.**
+com.zx.kuangjia.action.**
+com.zx.kuangjia.admin.action.**
+com.zx.kuangjia.dao.**
+com.zx.kuangjia.fenye.**
+com.zx.kuangjia.image.**
+com.zx.kuangjia.po.**
+com.zx.kuangjia.service.**
+com.zx.kuangjia.test.**
+com.zx.shopping.category.**
+com.zx.shopping.client.**
+com.zx.shopping.collect.**
+com.zx.shopping.comment.**
+com.zx.shopping.order.**
+com.zx.shopping.product.**
+com.zx.shopping.stat.**
+com.zx.shopping.test.**
+com.zx.shopping.user.**
+com.zx.shopping.util.**
+zx.upload.**
+</entry>
+<entry key="ProfilerCPUSettings_filter_value">QQ.*,
+com.zx.kuangjia.action.*,
+com.zx.kuangjia.admin.action.*,
+com.zx.kuangjia.dao.*,
+com.zx.kuangjia.fenye.*,
+com.zx.kuangjia.image.*,
+com.zx.kuangjia.po.*,
+com.zx.kuangjia.service.*,
+com.zx.kuangjia.test.*,
+com.zx.shopping.category.*,
+com.zx.shopping.client.*,
+com.zx.shopping.collect.*,
+com.zx.shopping.comment.*,
+com.zx.shopping.order.*,
+com.zx.shopping.product.*,
+com.zx.shopping.stat.*,
+com.zx.shopping.test.*,
+com.zx.shopping.user.*,
+com.zx.shopping.util.*,
+zx.upload.*</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">true</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="ProfilerMemorySettings_stacktraces">-1</entry>
+</properties>
